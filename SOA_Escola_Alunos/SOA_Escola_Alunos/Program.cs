@@ -1,7 +1,5 @@
-﻿using SOA_Escola_Alunos.Models;
-using SOA_Escola_Alunos.Services;
+﻿using SOA_Escola_Alunos.Services;
 using System;
-using System.Collections.Generic;
 
 namespace SOA_Escola_Alunos
 {
@@ -33,20 +31,20 @@ namespace SOA_Escola_Alunos
                 case "1":
                     Console.WriteLine("Qual o nome do Aluno:");
                     _studentService.Create(Console.ReadLine());
-                    break;
+                    break;
                 case "2":
                     Console.WriteLine("**** Lista de Alunos ****");
-                    _studentService.GetAll();
-                    break;
+                    _studentService.GetAll();
+                    break;
                 case "3":
                     Console.WriteLine("**** Informe o id do cadastro a ser alterado: ****");
-                    _studentService.Update(Convert.ToInt32(Console.ReadLine()));
-                    break;
+                    _studentService.Update(Convert.ToInt32(Console.ReadLine()));
+                    break;
                 case "4":
 
                     Console.WriteLine("**** Informe o id do cadastro a ser deletado: ****");
-                    _studentService.Delete(Convert.ToInt32(Console.ReadLine()));
-                    break;
+                    _studentService.Delete(Convert.ToInt32(Console.ReadLine()));
+                    break;
                 default:
                     Console.ReadLine();
                     return;
@@ -58,6 +56,6 @@ namespace SOA_Escola_Alunos
             Console.ReadLine();
 
             MenuPrincipalAlunos();
-        }        
+        }
     }
 }

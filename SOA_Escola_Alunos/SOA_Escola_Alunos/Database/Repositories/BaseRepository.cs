@@ -1,39 +1,23 @@
 ﻿using SOA_Escola_Alunos.Models;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace SOA_Escola_Alunos.Database.Repositories
 {
     public class BaseRepository<T> where T : BaseModel
     {
-        private string _filePath { get; set; }
+        private readonly DatabaseSingleton<T> _database;
 
-        public BaseRepository(string filePath)
+        public BaseRepository()
         {
-            _filePath = filePath;
+            _database = DatabaseSingleton<T>.GetInstance();
         }
 
-        private List<T> GetDatabase()
-        {
-            var registros = File.ReadAllText(_filePath);
-            if (registros == "")
-            {
-                return new List<T>();
-            }
-
-            return JsonSerializer.Deserialize<List<T>>(registros);
-        }
-
-        public List<T> GetAll() => GetDatabase();        
+        public List<T> GetAll() => _database.GetDatabase();
 
         public T GetById(int id)
         {
-            var database = GetDatabase();
+            var database = GetAll();
             return database.FirstOrDefault(x => x.Id == id);
         }
         public void Update(T entity)
@@ -44,22 +28,17 @@ namespace SOA_Escola_Alunos.Database.Repositories
 
         public void Delete(T entity)
         {
-            var database = GetDatabase();
+            var database = GetAll();
             database.RemoveAll(p => p.Id == entity.Id);
-            UpdateDatabase(database);
+            _database.UpdateDatabase(database);
         }
 
         public int Add(T entity)
         {
-            var database = GetDatabase();
+            var database = GetAll();
             database.Add(entity);
-            UpdateDatabase(database);
+            _database.UpdateDatabase(database);
             return entity.Id;
         }
-
-        private void UpdateDatabase(List<T> database)
-        {
-            File.WriteAllTextAsync(_filePath, JsonSerializer.Serialize(database));
-        }
-    }    
+    }
 }
