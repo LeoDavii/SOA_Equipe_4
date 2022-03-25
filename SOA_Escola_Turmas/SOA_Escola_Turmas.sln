@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32228.343
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOA_Escola_Turmas", "SOA_Escola_Turmas.csproj", "{21060F86-0F86-4E6A-9492-D406E0D46767}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21060F86-0F86-4E6A-9492-D406E0D46767}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21060F86-0F86-4E6A-9492-D406E0D46767}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21060F86-0F86-4E6A-9492-D406E0D46767}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21060F86-0F86-4E6A-9492-D406E0D46767}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2F2444CF-8737-4B51-8223-E205788F428E}
+	EndGlobalSection
+EndGlobal
