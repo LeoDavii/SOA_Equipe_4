@@ -1,34 +1,46 @@
-﻿using SOA_Escola_Aula.Entities;
+﻿using SOA_Escola_Aula.Database;
+using SOA_Escola_Aula.Entities;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.Json;
 
 namespace SOA_Escola_Aula.Repositories
 {
     public class GenericRepository<T> where T : EntidadeBase
     {
-        protected string Host { get; set; }
+        private readonly Database<T> _database;
 
-        protected List<T> GetDatabase()
+        public GenericRepository(string jsonPath)
         {
-            var registros = File.ReadAllText(Host);
-            if (registros == "")
-            {
-                return new List<T>();
-            }
-
-            return JsonSerializer.Deserialize<List<T>>(registros);
+            _database = Database<T>.GetInstance(jsonPath);
         }
 
-        protected void UpdateDatabase(List<T> database)
+        public List<T> GetAll() => _database.GetDatabase();
+
+        public T GetById(Guid id)
         {
-            File.WriteAllTextAsync(Host, JsonSerializer.Serialize(database));
+            var database = GetAll();
+            return database.FirstOrDefault(x => x.Id == id);
+        }
+        public void UpdateDatabase(T entity)
+        {
+            Delete(entity);
+            Add(entity);
         }
 
-        public List<T> GetAll()
+        public void Delete(T entity)
         {
-            return GetDatabase().ToList();
+            var database = GetAll();
+            database.RemoveAll(p => p.Id == entity.Id);
+            _database.UpdateDatabase(database);
+        }
+
+        public Guid Add(T entity)
+        {
+            var database = GetAll();
+            database.Add(entity);
+            _database.UpdateDatabase(database);
+            return entity.Id;
         }
     }
 }
