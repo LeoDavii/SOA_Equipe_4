@@ -1,1 +1,1 @@
-﻿
+[{"Valor":3,"IdAluno":2,"IdProfessor":1},{"Valor":8,"IdAluno":2,"IdProfessor":2}]

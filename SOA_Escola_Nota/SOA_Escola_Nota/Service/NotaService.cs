@@ -1,7 +1,9 @@
-﻿using SOA_Escola_Nota.Comum;
+﻿using SOA_Escola_Nota.Builder;
+using SOA_Escola_Nota.Comum;
 using SOA_Escola_Nota.Entidade;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,37 +12,53 @@ namespace SOA_Escola_Nota.Service
 {
     public class NotaService
     {
-        public RepositoryBase _repositoryBase { get; set; }
+        public RepositoryBase<Nota> _repositoryBase { get; set; }
 
         public NotaService()
         {
-            _repositoryBase = new RepositoryBase(@"\SOA_Escola_Nota\SOA_Escola_Nota\Repository\NotasRepository.txt");
+            var teste = Directory.GetCurrentDirectory() + @"..\..\..\..\Repository\NotasRepository.txt";
+            _repositoryBase = new RepositoryBase<Nota>(teste);
         }
 
-        public bool InsertNota(Nota nota)
+        public bool InsertNota(decimal valor, int idAluno, int idProfessor)
         {
-            bool result = false;
-            if (nota.Valido)
-                result = _repositoryBase.Insert<Nota>(nota);
-         
-            return result;
+            NotaBuilder nota = new NotaBuilder();
+            nota.Valor(valor).IdAluno(idAluno).IdProfessor(idProfessor);
+            if (nota.Valido())
+                _repositoryBase.Insert(nota.Build());
+
+            return nota.Valido();
         }
 
-        public List<Nota> GetAllNota()
-            => _repositoryBase.GetAll<Nota>();
+        public List<Nota> GetAllNota(int idProfessor)
+            => _repositoryBase.GetAll(idProfessor);
 
-        public bool DeleteNota(Nota nota)
-            => _repositoryBase.Delete<Nota>(nota);
+        public void DeleteNota(int idAluno, int idProfessor)
+          =>  _repositoryBase.Delete(idAluno, idProfessor);
 
-        public void UpdateNota(Nota nota)
+        public void UpdateNota(decimal valor, int idAluno, int idProfessor)
         {
-            var notaRepository = _repositoryBase.GetAll<Nota>().Find(n => n.IdProfessor == nota.IdProfessor && n.IdAluno == nota.IdAluno);
-
-            if (notaRepository != null)
+            NotaBuilder notaBuilder = new NotaBuilder();
+            notaBuilder.Valor(valor).IdAluno(idAluno).IdProfessor(idProfessor);
+            if (notaBuilder.Valido())
             {
-                _repositoryBase.Delete<Nota>(notaRepository);
-                _repositoryBase.Insert(nota);
+                var nota = notaBuilder.Build();
+                var notaRepository = _repositoryBase.GetAll(idProfessor).Find(n => n.IdAluno == nota.IdAluno);
+
+                if (notaRepository != null)
+                {
+                    _repositoryBase.Delete(nota.IdAluno, nota.IdProfessor);
+                    _repositoryBase.Insert(nota);
+                }
             }
+
+        }
+
+        public void ExibirNotas(int idProfessor)
+        {
+          var notas =  GetAllNota(idProfessor);
+            foreach (var item in notas)
+                Console.WriteLine($"Nota {item.Valor} do Aluno {item.IdAluno}");
         }
     }
 }
