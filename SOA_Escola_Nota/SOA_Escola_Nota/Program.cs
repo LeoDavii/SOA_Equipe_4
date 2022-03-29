@@ -73,6 +73,7 @@ namespace SOA_Escola_Nota
             }
             Console.WriteLine("Aperte qualquer tecla para voltar ao menu anterior");
             Console.ReadLine();
+            notaBuilder.Clear();
             MenuNotas(idProfessor);
         }
     }

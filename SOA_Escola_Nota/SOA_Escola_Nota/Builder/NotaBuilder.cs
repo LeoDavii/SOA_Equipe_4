@@ -24,5 +24,12 @@ namespace SOA_Escola_Nota.Builder
 
         public Nota Build()
             => Valido() ? new Nota(_valor, _idAluno, _idProfessor) : null;
+
+        public void Clear()
+        {
+            _valor = 0m;
+            _idAluno = 0;
+            _idProfessor = 0;
+        }
     }
 }
