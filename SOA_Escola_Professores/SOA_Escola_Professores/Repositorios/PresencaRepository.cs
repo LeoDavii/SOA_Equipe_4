@@ -6,21 +6,21 @@ using System.Linq;
 
 namespace SOA_Escola_Professores.Repositorios
 {
-    public class PresencaRepository : GenericRepository<ControleDePresenca>
+    public class PresencaRepository : BaseRepository<AbsenceControl>
     {
         public PresencaRepository()
         {
-            Host = Directory.GetCurrentDirectory() + @"..\..\..\..\Database\ControleDePresenca.json";
+            Host = Directory.GetCurrentDirectory() + @"..\..\..\..\Database\AbsenceControl.json";
         }
 
         public void CadastrarPresença(EntidadeFake aluno, EntidadeFake aula, int presencas, int ausencias)
         {
             var database = GetDatabase();
 
-            var ausencia = new ControleDePresenca()
+            var ausencia = new AbsenceControl()
             {
-                Presencas = presencas,
-                Ausencias = ausencias,
+                Presence = presencas,
+                Absence = ausencias,
                 IdAluno = aluno.Id,
                 IdAula = aula.Id,
                 NomeAluno = aluno.Name,
@@ -30,7 +30,7 @@ namespace SOA_Escola_Professores.Repositorios
             database.Add(ausencia);
             UpdateDatabase(database);
         }
-        public List<ControleDePresenca> ListarControlePresenca()
+        public List<AbsenceControl> ListarControlePresenca()
         {
             return GetDatabase().ToList();
         }

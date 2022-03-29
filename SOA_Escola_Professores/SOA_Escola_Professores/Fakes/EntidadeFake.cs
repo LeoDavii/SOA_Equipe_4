@@ -1,8 +1,9 @@
-﻿namespace SOA_Escola_Professores.Fakes
+﻿using SOA_Escola_Professores.Entidades;
+
+namespace SOA_Escola_Professores.Fakes
 {
-    public class EntidadeFake
+    public class EntidadeFake : BaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
 
         public override string ToString()

@@ -8,7 +8,7 @@ namespace SOA_Escola_Professores.Service
         {
             Console.WriteLine("\r\n************************ Módulo Professor ************************\n");
             Console.WriteLine("1 - Cadastrar Novo Professor");
-            Console.WriteLine("2 - Listar Professores Cadastrados");
+            Console.WriteLine("2 - Listar Teachers Cadastrados");
             Console.WriteLine("3 - Atualizar Cadastro de Professor");
             Console.WriteLine("4 - Deletar Cadastro de Professor");
             Console.WriteLine("5 - Cadastrar presenças");
@@ -16,7 +16,7 @@ namespace SOA_Escola_Professores.Service
             Console.WriteLine("7 - Retornar ao menu anterior\n");
             Console.Write("Escolha uma das opções:");
             var opcao = Console.ReadLine();
-            var professorService = new ProfessorService();
+            var professorService = new TeacherService();
             var presencaService = new PresencaService();
             switch (opcao)
             {

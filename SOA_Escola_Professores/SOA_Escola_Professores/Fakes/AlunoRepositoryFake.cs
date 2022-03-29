@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace SOA_Escola_Professores.Fakes
 {
-    public class AlunoRepositoryFake : GenericRepository<EntidadeFake>
+    public class AlunoRepositoryFake : BaseRepository<EntidadeFake>
     {
         public AlunoRepositoryFake()
         {
