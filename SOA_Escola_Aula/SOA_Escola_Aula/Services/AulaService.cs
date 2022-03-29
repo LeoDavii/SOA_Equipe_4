@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace SOA_Escola_Aula.Services
 {
-    internal class AulaService
+    private class AulaService
     {
         private AulaRepository _aulaRepository { get; set; }
 
