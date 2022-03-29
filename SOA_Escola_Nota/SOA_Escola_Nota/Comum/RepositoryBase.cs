@@ -1,5 +1,4 @@
-﻿using SOA_Escola_Nota.Entidade;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,52 +8,41 @@ using System.Threading.Tasks;
 
 namespace SOA_Escola_Nota.Comum
 {
-    public class RepositoryBase<T> where T : Nota
+    public class RepositoryBase
     {
         private string pathFile { get; set; }
 
         public RepositoryBase(string path)
         {
-            pathFile =  path;
+            pathFile = Directory.GetCurrentDirectory() + path;
         }
 
-        private List<T> Database()
+        public bool Insert<T>(T objetos)
         {
-            var registros = File.ReadAllText(pathFile);
-            if (registros == "")
-                return new List<T>();
+            using FileStream stream = File.OpenRead(pathFile);
+            var database = JsonSerializer.DeserializeAsync<List<T>>(stream).Result;
+            stream.Close();
 
-            return JsonSerializer.Deserialize<List<T>>(registros);
-        }
-
-        private void UpdateDatabase(List<T> database)
-          =>  File.WriteAllTextAsync(pathFile, JsonSerializer.Serialize(database));
-
-        public bool Insert(T objetos)
-        {
-            var dataBase = Database();
-            dataBase.Add(objetos);
-            UpdateDatabase(dataBase);
+            database.Add(objetos);
+            File.WriteAllText(pathFile, JsonSerializer.Serialize(database));
             return true;
         }
 
-        public List<T> GetAll(int idProfessor)
+        public List<T> GetAll<T>()
         {
-            var database = Database();
-            return database.FindAll(x => x.IdProfessor == idProfessor); 
+            using FileStream stream = File.OpenRead(pathFile);
+            return JsonSerializer.DeserializeAsync<List<T>>(stream).Result;
         }
 
-        public void Delete(int idAlunno,int idProfessor)
+        public bool Delete<T>(T objeto)
         {
-            var database = Database();
-            database.RemoveAll(p => p.IdProfessor == idProfessor && p.IdAluno == idAlunno);
-            UpdateDatabase(database);
-        }
+            using FileStream stream = File.OpenRead(pathFile);
+            var database = JsonSerializer.DeserializeAsync<List<T>>(stream).Result;
+            stream.Close();
 
-        public void Update(T entity)
-        {
-            Delete(entity.IdAluno, entity.IdProfessor);
-            Insert(entity);
+            database.Remove(objeto);
+            File.WriteAllText(pathFile, JsonSerializer.Serialize(database));
+            return true;
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace SOA_Escola_Aula.Repositories
 {
-    internal class AulaRepository
+    public class AulaRepository
     {
         private readonly GenericRepository<Aula> _genericRepository;
         public AulaRepository()
